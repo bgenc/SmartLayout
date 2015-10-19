@@ -46,6 +46,7 @@ public class LayoutContainer implements Layoutable
 
     public void layout(int WIDTH, int HEIGHT)
     {
+        // This is the main method that does the computation of layout
 
     }
 

@@ -1,6 +1,10 @@
 public class SmartLayout
 {
-    public static void main(String args[])
+    public SmartLayout()
+    {
+    }
+
+    public void run()
     {
         System.out.println("Starting test...");
 
@@ -11,9 +15,15 @@ public class SmartLayout
         contX.addComponent(compA);
         contX.addComponent(compB);
 
-        System.out.println(compA);
-        System.out.println(compB);
-        // Don't comment this.
-        System.out.println(contX);
+        contX.setLayoutOrientation(LayoutContainer.VERTICAL);
+
+        System.out.println(contX.getMinWidth());
+    }
+
+
+    public static void main(String args[])
+    {
+        SmartLayout app = new SmartLayout();
+        app.run();
     }
 }

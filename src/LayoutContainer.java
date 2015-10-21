@@ -7,16 +7,44 @@ public class LayoutContainer implements Layoutable
 {
     private Vector<Layoutable> components;
     private int preferredLayoutOrientation;
+    public static final int HORIZONTAL = 0;
+    public static  final int VERTICAL = 1;
+    public  static final int OTHER = 2;
+
 
     public LayoutContainer()
     {
         this.components = new Vector<Layoutable>();
+        this.preferredLayoutOrientation = HORIZONTAL;
+    }
+
+    public void setLayoutOrientation(int orientation)
+    {
+        this.preferredLayoutOrientation = orientation;
     }
 
     @Override
     public int getMinWidth()
     {
-        return 0;
+        int returnVal = 0;
+
+        if (this.preferredLayoutOrientation == HORIZONTAL)
+        {
+            for (Layoutable c : components)
+            {
+                returnVal += c.getMinWidth();
+            }
+        }
+        else if (this.preferredLayoutOrientation == VERTICAL)
+        {
+            for (Layoutable c : components)
+            {
+                if (c.getMinWidth() > returnVal)
+                    returnVal = c.getMinWidth();
+            }
+        }
+
+        return returnVal;
     }
 
     @Override

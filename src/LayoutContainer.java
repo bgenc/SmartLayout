@@ -53,6 +53,6 @@ public class LayoutContainer implements Layoutable
     public void addComponent(Layoutable comp)
     {
         this.components.add(comp);
-        // Added somethingh....
+        // Added something....
     }
 }

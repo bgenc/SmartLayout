@@ -8,6 +8,11 @@ public class LayoutContainer implements Layoutable
     private Vector<Layoutable> components;
     private int preferredLayoutOrientation;
 
+    public LayoutContainer()
+    {
+        this.components = new Vector<Layoutable>();
+    }
+
     @Override
     public int getMinWidth()
     {
@@ -53,6 +58,5 @@ public class LayoutContainer implements Layoutable
     public void addComponent(Layoutable comp)
     {
         this.components.add(comp);
-        // Added something....
     }
 }

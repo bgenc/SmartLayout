@@ -13,6 +13,7 @@ public class SmartLayout
 
         System.out.println(compA);
         System.out.println(compB);
-        //System.out.println(contX);
+        // Don't comment this.
+        System.out.println(contX);
     }
 }

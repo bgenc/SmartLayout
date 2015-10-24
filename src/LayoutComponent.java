@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 /**
  * Created by bgenc on 10/19/15.
  */
@@ -96,5 +98,10 @@ public class LayoutComponent implements Layoutable
         return this.aHeight;
     }
 
-
+    public Vector<WHRange> getRanges()
+    {
+        Vector<WHRange> vec = new Vector<WHRange>();
+        vec.add(this.whRange);
+        return vec;
+    }
 }

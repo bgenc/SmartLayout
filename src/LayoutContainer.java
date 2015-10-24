@@ -5,11 +5,12 @@ import java.util.Vector;
  */
 public class LayoutContainer implements Layoutable
 {
+    private int m = 1;
     private Vector<Layoutable> components;
     private int preferredLayoutOrientation;
     public static final int HORIZONTAL = 0;
-    public static  final int VERTICAL = 1;
-    public  static final int OTHER = 2;
+    public static final int VERTICAL = 1;
+    public static final int OTHER = 2;
 
 
     public LayoutContainer()
@@ -50,19 +51,92 @@ public class LayoutContainer implements Layoutable
     @Override
     public int getMinHeight()
     {
-        return 0;
+        int returnVal = 0;
+
+        if (this.preferredLayoutOrientation == HORIZONTAL)
+        {
+            for (Layoutable c : components)
+            {
+                if (c.getMinHeight() > returnVal)
+                    returnVal = c.getMinHeight();
+            }
+        }
+        else if (this.preferredLayoutOrientation == VERTICAL)
+        {
+            for (Layoutable c : components)
+            {
+                returnVal += c.getMinHeight();
+            }
+        }
+
+        return returnVal;
     }
 
     @Override
     public int getMaxWidth()
     {
-        return 0;
+        int returnVal = 0;
+
+        if (this.preferredLayoutOrientation == HORIZONTAL)
+        {
+            for (Layoutable c : components)
+            {
+                returnVal += c.getMaxWidth();
+            }
+        }
+        else if (this.preferredLayoutOrientation == VERTICAL)
+        {
+            for (Layoutable c : components)
+            {
+                if (c.getMaxWidth() > returnVal)
+                    returnVal = c.getMaxWidth();
+            }
+        }
+
+        return returnVal;
     }
 
     @Override
     public int getMaxHeight()
     {
-        return 0;
+        int returnVal = 0;
+
+        if (this.preferredLayoutOrientation == HORIZONTAL)
+        {
+            for (Layoutable c : components)
+            {
+                if (c.getMaxHeight() > returnVal)
+                    returnVal = c.getMaxHeight();
+            }
+        }
+        else if (this.preferredLayoutOrientation == VERTICAL)
+        {
+            for (Layoutable c : components)
+            {
+                returnVal += c.getMaxHeight();
+            }
+        }
+
+        return returnVal;
+    }
+
+    public Vector<WHRange> getRanges()
+    {
+        Vector<WHRange> vec = new Vector<WHRange>();
+
+        for (Layoutable l : components)
+        {
+            Vector<WHRange> compVec = l.getRanges();
+
+            for (int i = 0; i < compVec.size(); i++)
+            {
+                // For now it's just adding each components WHRange to a vector
+                vec.add(compVec.elementAt(i));
+            }
+
+        }
+
+        return vec;
     }
 
     @Override

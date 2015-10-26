@@ -43,6 +43,15 @@ public class WHRange
 
     public String toString()
     {
-        return "(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")";
+        if (this.orientationStrategy == SINGLE)
+            return "{S(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+        else if (this.orientationStrategy == HORIZONTAL)
+            return "{H(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+        else if (this.orientationStrategy == VERTICAL)
+            return "{V(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+        else if (this.orientationStrategy == OTHER)
+            return "{O(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+        else
+            return "Oops";
     }
 }

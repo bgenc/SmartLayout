@@ -12,6 +12,21 @@ public class SmartLayout
     {
         System.out.println("Starting test...");
 
+        /*
+        A diagram to show what this test is about:
+
+        M
+        +--------------------------------+--------------------------------+
+        |                                |                                |
+        Z                                X                                D
+        +---------------------+          +----------+----------+
+        |                     |          |          |          |
+        Y                     G          A          B          C
+        +----------+
+        |          |
+        E          F
+         */
+
         LayoutComponent compA = new LayoutComponent(new WHRange(WHRange.SINGLE, 100, 100, 200, 200));
         LayoutComponent compB = new LayoutComponent(new WHRange(WHRange.SINGLE, 200, 200, 400, 400));
         LayoutComponent compC = new LayoutComponent(new WHRange(WHRange.SINGLE, 150, 100, 150, 250));
@@ -50,10 +65,7 @@ public class SmartLayout
 
 
 
-        System.out.println(contM.getRanges());
-
-
-
+        System.out.println(contY.getRanges());
     }
 
 

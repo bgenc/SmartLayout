@@ -12,16 +12,16 @@ public class SmartLayout
     {
         System.out.println("Starting test...");
 
-        LayoutComponent compA = new LayoutComponent(new WHRange(100, 100, 200, 200));
-        LayoutComponent compB = new LayoutComponent(new WHRange(200, 200, 400, 400));
-        LayoutComponent compC = new LayoutComponent(new WHRange(150, 100, 150, 250));
+        LayoutComponent compA = new LayoutComponent(new WHRange(WHRange.SINGLE, 100, 100, 200, 200));
+        LayoutComponent compB = new LayoutComponent(new WHRange(WHRange.SINGLE, 200, 200, 400, 400));
+        LayoutComponent compC = new LayoutComponent(new WHRange(WHRange.SINGLE, 150, 100, 150, 250));
 
-        LayoutComponent compD = new LayoutComponent(new WHRange(200, 200, 400, 400));
+        LayoutComponent compD = new LayoutComponent(new WHRange(WHRange.SINGLE, 200, 200, 400, 400));
 
-        LayoutComponent compE = new LayoutComponent(new WHRange(100, 150, 300, 400));
-        LayoutComponent compF = new LayoutComponent(new WHRange( 50, 300, 100, 450));
+        LayoutComponent compE = new LayoutComponent(new WHRange(WHRange.SINGLE, 100, 150, 300, 400));
+        LayoutComponent compF = new LayoutComponent(new WHRange(WHRange.SINGLE, 50, 300, 100, 450));
 
-        LayoutComponent compG = new LayoutComponent(new WHRange(100, 200, 150, 350));
+        LayoutComponent compG = new LayoutComponent(new WHRange(WHRange.SINGLE, 100, 200, 150, 350));
 
 
 

@@ -10,11 +10,11 @@ public class WHRange
     public static final int VERTICAL = 2;
     public static final int OTHER = 3;
 
-    public WHRange(int orientationStrategy, int minWidth, int minHeight, int maxWidth, int maxHeight)
+    public WHRange(int orientationStrategy, int minWidth, int maxWidth, int minHeight, int maxHeight)
     {
         this.minW = minWidth;
-        this.minH = minHeight;
         this.maxW = maxWidth;
+        this.minH = minHeight;
         this.maxH = maxHeight;
         this.orientationStrategy = orientationStrategy;
     }
@@ -44,13 +44,13 @@ public class WHRange
     public String toString()
     {
         if (this.orientationStrategy == SINGLE)
-            return "{S(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+            return "{S(" + this.minW + "," + this.maxW + ")-(" + this.minH + "," + this.maxH + ")}";
         else if (this.orientationStrategy == HORIZONTAL)
-            return "{H(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+            return "{H(" + this.minW + "," + this.maxW + ")-(" + this.minH + "," + this.maxH + ")}";
         else if (this.orientationStrategy == VERTICAL)
-            return "{V(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+            return "{V(" + this.minW + "," + this.maxW + ")-(" + this.minH + "," + this.maxH + ")}";
         else if (this.orientationStrategy == OTHER)
-            return "{O(" + this.minW + "," + this.minH + ")-(" + this.maxW + "," + this.maxH + ")}";
+            return "{O(" + this.minW + "," + this.maxW + ")-(" + this.minH + "," + this.maxH + ")}";
         else
             return "Oops";
     }

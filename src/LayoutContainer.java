@@ -5,7 +5,6 @@ import java.util.Vector;
  */
 public class LayoutContainer implements Layoutable
 {
-    private int m = 1;
     private Vector<Layoutable> components;
 
     public LayoutContainer()
@@ -63,17 +62,18 @@ public class LayoutContainer implements Layoutable
                         // Otherwise we have an infeasible layout. This only should happen
                         // if the height ranges of the two components are not intersecting.
 
-                        // TODO This should normally be handled more gently.
-                        assert (newMaxHeight > newMinHeight);
-
-                        // Now create the new range object and add it to the temp vector:
-                        WHRange newRange = new WHRange(WHRange.HORIZONTAL,
-                                newMinWidth, newMinHeight, newMaxWidth, newMaxHeight);
-                        tempRanges.add(newRange);
+                        if (newMaxHeight >= newMinHeight)
+                        {
+                            // Now create the new range object and add it to the temp vector:
+                            WHRange newRange = new WHRange(WHRange.HORIZONTAL,
+                                    newMinWidth, newMaxWidth, newMinHeight, newMaxHeight);
+                            tempRanges.add(newRange);
+                        }
                     }
                 }
 
-                movingRanges = tempRanges;
+                movingRanges.clear();
+                movingRanges.addAll(tempRanges);
             }
         }
 
@@ -113,17 +113,18 @@ public class LayoutContainer implements Layoutable
                         // Otherwise we have an infeasible layout. This only should happen
                         // if the width ranges of the two components are not intersecting.
 
-                        // TODO This should normally be handled more gently.
-                        assert (newMaxWidth > newMinWidth);
-
-                        // Now create the new range object and add it to the temp vector:
-                        WHRange newRange = new WHRange(WHRange.VERTICAL,
-                                newMinWidth, newMinHeight, newMaxWidth, newMaxHeight);
-                        tempRanges.add(newRange);
+                        if (newMaxWidth >= newMinWidth)
+                        {
+                            // Now create the new range object and add it to the temp vector:
+                            WHRange newRange = new WHRange(WHRange.VERTICAL,
+                                    newMinWidth, newMaxWidth, newMinHeight, newMaxHeight);
+                            tempRanges.add(newRange);
+                        }
                     }
                 }
 
-                movingRanges = tempRanges;
+                movingRanges.clear();
+                movingRanges.addAll(tempRanges);
             }
         }
 

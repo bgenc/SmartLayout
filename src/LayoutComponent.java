@@ -63,30 +63,6 @@ public class LayoutComponent implements Layoutable
     }
 
     @Override
-    public int getMinWidth()
-    {
-        return this.whRange.getMinWidth();
-    }
-
-    @Override
-    public int getMinHeight()
-    {
-        return this.whRange.getMinHeight();
-    }
-
-    @Override
-    public int getMaxWidth()
-    {
-        return this.whRange.getMaxWidth();
-    }
-
-    @Override
-    public int getMaxHeight()
-    {
-        return this.whRange.getMaxHeight();
-    }
-
-    @Override
     public int getAssignedWidth()
     {
         return this.aWidth;

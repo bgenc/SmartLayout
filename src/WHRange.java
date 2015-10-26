@@ -4,13 +4,18 @@
 public class WHRange
 {
     private int minW, maxW, minH, maxH;
+    private int orientationStrategy;
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
+    public static final int OTHER = 2;
 
-    public WHRange(int minWidth, int minHeight, int maxWidth, int maxHeight)
+    public WHRange(int orientationStrategy, int minWidth, int minHeight, int maxWidth, int maxHeight)
     {
         this.minW = minWidth;
         this.minH = minHeight;
         this.maxW = maxWidth;
         this.maxH = maxHeight;
+        this.orientationStrategy = orientationStrategy;
     }
 
     public int getMinWidth()
@@ -32,6 +37,8 @@ public class WHRange
     {
         return this.maxH;
     }
+
+    public int getOrientationStrategy() {return this.orientationStrategy; }
 
     public String toString()
     {

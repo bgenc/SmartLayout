@@ -28,19 +28,19 @@ public class SmartLayout
          */
 
 		LayoutComponent compA = new LayoutComponent(
-				new WHRange(WHRange.SINGLE, 100, 300, 100, 300));
+				new WHRange(WHRange.SINGLE, 100, 200, 100, 100));
 		LayoutComponent compB = new LayoutComponent(
-				new WHRange(WHRange.SINGLE, 101, 300, 100, 300));
+				new WHRange(WHRange.SINGLE, 100, 200, 100, 100));
 		LayoutComponent compC = new LayoutComponent(
-				new WHRange(WHRange.SINGLE, 102, 300, 100, 300));
+				new WHRange(WHRange.SINGLE, 100, 200, 100, 100));
 		LayoutComponent compD = new LayoutComponent(
-				new WHRange(WHRange.SINGLE, 103, 300, 100, 300));
+				new WHRange(WHRange.SINGLE, 200, 400, 200, 400));
 		LayoutComponent compE = new LayoutComponent(
-				new WHRange(WHRange.SINGLE, 104, 300, 100, 300));
+				new WHRange(WHRange.SINGLE, 300, 400, 100, 150));
 		LayoutComponent compF = new LayoutComponent(
-				new WHRange(WHRange.SINGLE, 105, 300, 100, 300));
+				new WHRange(WHRange.SINGLE, 300, 400, 100, 150));
 		LayoutComponent compG = new LayoutComponent(
-				new WHRange(WHRange.SINGLE, 106, 300, 100, 300));
+				new WHRange(WHRange.SINGLE, 200, 300, 200, 300));
 
 		LayoutContainer contY = new LayoutContainer();
 		contY.addComponent(compE);

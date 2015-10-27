@@ -166,7 +166,31 @@ public class LayoutContainer implements Layoutable
 		return 0;
 	}
 
-	public void layout(int WIDTH, int HEIGHT)
+	@Override
+	public void setAssignedWidth(int w)
+	{
+
+	}
+
+	@Override
+	public void setAssignedHeight(int h)
+	{
+
+	}
+
+	@Override
+	public void setAssignedX(int x)
+	{
+
+	}
+
+	@Override
+	public void setAssignedY(int y)
+	{
+
+	}
+
+	public void layout(int WIDTH, int HEIGHT, WHRange whr)
 	{
 		// This is the main method that does the computation of layout
 

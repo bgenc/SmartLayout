@@ -74,6 +74,30 @@ public class LayoutComponent implements Layoutable
 		return this.aHeight;
 	}
 
+	@Override
+	public void setAssignedWidth(int w)
+	{
+		this.aWidth = w;
+	}
+
+	@Override
+	public void setAssignedHeight(int h)
+	{
+		this.aHeight = h;
+	}
+
+	@Override
+	public void setAssignedX(int x)
+	{
+		this.aX = x;
+	}
+
+	@Override
+	public void setAssignedY(int y)
+	{
+		this.aY = y;
+	}
+
 	public Vector<WHRange> getRanges()
 	{
 		Vector<WHRange> vec = new Vector<WHRange>();

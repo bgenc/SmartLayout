@@ -5,154 +5,175 @@ import java.util.Vector;
  */
 public class LayoutContainer implements Layoutable
 {
-    private Vector<Layoutable> components;
+	private Vector<Layoutable> components;
 
-    public LayoutContainer()
-    {
-        this.components = new Vector<Layoutable>();
-    }
+	public LayoutContainer()
+	{
+		this.components = new Vector<Layoutable>();
+	}
 
-    /**
-     * This method returns all possible layout combinations for this subtree
-     * of components and containers. While computing all layouts, this method
-     * does the following:
-     * - For each orientation strategy:
-     * --- Get all layouts of all children
-     * --- Create all layout combinations under this strategy
-     * --- Store each combination as a possible layout
-     * - Return all possible layouts
-     * @return All possible layout combinations for this subtree.
-     */
-    public Vector<WHRange> getRanges()
-    {
-        Vector<WHRange> vec = new Vector<WHRange>();
+	/**
+	 * This method returns all possible layout combinations for this subtree
+	 * of components and containers. While computing all layouts, this method
+	 * does the following:
+	 * - For each orientation strategy:
+	 * --- Get all layouts of all children
+	 * --- Create all layout combinations under this strategy
+	 * --- Store each combination as a possible layout
+	 * - Return all possible layouts
+	 *
+	 * @return All possible layout combinations for this subtree.
+	 */
+	public Vector<WHRange> getRanges()
+	{
+		Vector<WHRange> vec = new Vector<WHRange>();
 
-        // First, the HORIZONTAL orientation strategy
+		// First, the HORIZONTAL orientation strategy
 
-        Vector<WHRange> movingRanges = new Vector<WHRange>();
-        Vector<WHRange> tempRanges = new Vector<WHRange>();
+		Vector<WHRange> movingRanges = new Vector<WHRange>();
+		Vector<WHRange> tempRanges = new Vector<WHRange>();
 
-        for (Layoutable l : components)
-        {
-            Vector<WHRange> compVec = l.getRanges();
-            tempRanges.clear();
+		for (Layoutable l : components)
+		{
+			Vector<WHRange> compVec = l.getRanges();
+			tempRanges.clear();
 
-            if (movingRanges.isEmpty())
-            {
-                // If this is the first component, we simply fill the movingRanges data
-                // based on this component
-                movingRanges.addAll(compVec);
-            }
-            else
-            {
-                // For all other components, we compute the product with existing
-                // movingRanges data and obtain the new movingRanges.
+			if (movingRanges.isEmpty())
+			{
+				// If this is the first component, we simply fill the movingRanges data
+				// based on this component
 
-                for (WHRange whr : movingRanges)
-                {
-                    for (WHRange whrNew : compVec)
-                    {
-                        // Since this is horizontal, we know how to compute the new range:
-                        int newMinWidth = whr.getMinWidth() + whrNew.getMinWidth();
-                        int newMaxWidth = whr.getMaxWidth() + whrNew.getMaxWidth();
-                        int newMinHeight = Math.max(whr.getMinHeight(), whrNew.getMinHeight());
-                        int newMaxHeight = Math.min(whr.getMaxHeight(), whrNew.getMaxHeight());
+				for (WHRange whr : compVec)
+				{
+					WHRange newRange = new WHRange(whr);
+					newRange.setOrientationStrategy(WHRange.HORIZONTAL);
+					newRange.addSubRange(whr);
+					movingRanges.add(newRange);
+				}
+			}
+			else
+			{
+				// For all other components, we compute the product with existing
+				// movingRanges data and obtain the new movingRanges.
 
-                        // Make sure that newMaxHeight is greater than newMinHeight.
-                        // Otherwise we have an infeasible layout. This only should happen
-                        // if the height ranges of the two components are not intersecting.
+				for (WHRange whr : movingRanges)
+				{
+					for (WHRange whrNew : compVec)
+					{
+						// Since this is horizontal, we know how to compute the new range:
+						int newMinWidth = whr.getMinWidth() + whrNew.getMinWidth();
+						int newMaxWidth = whr.getMaxWidth() + whrNew.getMaxWidth();
+						int newMinHeight = Math.max(whr.getMinHeight(), whrNew.getMinHeight());
+						int newMaxHeight = Math.min(whr.getMaxHeight(), whrNew.getMaxHeight());
 
-                        if (newMaxHeight >= newMinHeight)
-                        {
-                            // Now create the new range object and add it to the temp vector:
-                            WHRange newRange = new WHRange(WHRange.HORIZONTAL,
-                                    newMinWidth, newMaxWidth, newMinHeight, newMaxHeight);
-                            tempRanges.add(newRange);
-                        }
-                    }
-                }
+						// Make sure that newMaxHeight is greater than newMinHeight.
+						// Otherwise we have an infeasible layout. This only should happen
+						// if the height ranges of the two components are not intersecting.
 
-                movingRanges.clear();
-                movingRanges.addAll(tempRanges);
-            }
-        }
+						if (newMaxHeight >= newMinHeight)
+						{
+							// Now create the new range object and add it to the temp vector:
+							WHRange newRange = new WHRange(WHRange.HORIZONTAL,
+							                               newMinWidth, newMaxWidth,
+							                               newMinHeight, newMaxHeight);
+							newRange.addSubRanges(whr.getSubRanges());
+							newRange.addSubRange(whrNew);
+							tempRanges.add(newRange);
+						}
+					}
+				}
 
-        vec.addAll(movingRanges);
+				movingRanges.clear();
+				movingRanges.addAll(tempRanges);
+			}
+		}
 
-        // Now, the VERTICAL orientation strategy
+		vec.addAll(movingRanges);
 
-        movingRanges.clear();
+		// Now, the VERTICAL orientation strategy
 
-        for (Layoutable l : components)
-        {
-            Vector<WHRange> compVec = l.getRanges();
-            tempRanges.clear();
+		movingRanges.clear();
 
-            if (movingRanges.isEmpty())
-            {
-                // If this is the first component, we simply fill the movingRanges data
-                // based on this component
-                movingRanges.addAll(compVec);
-            }
-            else
-            {
-                // For all other components, we compute the product with existing
-                // movingRanges data and obtain the new movingRanges.
+		for (Layoutable l : components)
+		{
+			Vector<WHRange> compVec = l.getRanges();
+			tempRanges.clear();
 
-                for (WHRange whr : movingRanges)
-                {
-                    for (WHRange whrNew : compVec)
-                    {
-                        // Since this is vertical, we know how to compute the new range:
-                        int newMinWidth = Math.max(whr.getMinWidth(), whrNew.getMinWidth());
-                        int newMaxWidth = Math.min(whr.getMaxWidth(), whrNew.getMaxWidth());
-                        int newMinHeight = whr.getMinHeight() + whrNew.getMinHeight();
-                        int newMaxHeight = whr.getMaxHeight() + whrNew.getMaxHeight();
+			if (movingRanges.isEmpty())
+			{
+				// If this is the first component, we simply fill the movingRanges data
+				// based on this component
 
-                        // Make sure that newMaxWidth is greater than newMinWidth.
-                        // Otherwise we have an infeasible layout. This only should happen
-                        // if the width ranges of the two components are not intersecting.
+				for (WHRange whr : compVec)
+				{
+					WHRange newRange = new WHRange(whr);
+					newRange.setOrientationStrategy(WHRange.VERTICAL);
+					newRange.addSubRange(whr);
+					movingRanges.add(newRange);
+				}
+			}
+			else
+			{
+				// For all other components, we compute the product with existing
+				// movingRanges data and obtain the new movingRanges.
 
-                        if (newMaxWidth >= newMinWidth)
-                        {
-                            // Now create the new range object and add it to the temp vector:
-                            WHRange newRange = new WHRange(WHRange.VERTICAL,
-                                    newMinWidth, newMaxWidth, newMinHeight, newMaxHeight);
-                            tempRanges.add(newRange);
-                        }
-                    }
-                }
+				for (WHRange whr : movingRanges)
+				{
+					for (WHRange whrNew : compVec)
+					{
+						// Since this is vertical, we know how to compute the new range:
+						int newMinWidth = Math.max(whr.getMinWidth(), whrNew.getMinWidth());
+						int newMaxWidth = Math.min(whr.getMaxWidth(), whrNew.getMaxWidth());
+						int newMinHeight = whr.getMinHeight() + whrNew.getMinHeight();
+						int newMaxHeight = whr.getMaxHeight() + whrNew.getMaxHeight();
 
-                movingRanges.clear();
-                movingRanges.addAll(tempRanges);
-            }
-        }
+						// Make sure that newMaxWidth is greater than newMinWidth.
+						// Otherwise we have an infeasible layout. This only should happen
+						// if the width ranges of the two components are not intersecting.
 
-        vec.addAll(movingRanges);
+						if (newMaxWidth >= newMinWidth)
+						{
+							// Now create the new range object and add it to the temp vector:
+							WHRange newRange = new WHRange(WHRange.VERTICAL,
+							                               newMinWidth, newMaxWidth,
+							                               newMinHeight, newMaxHeight);
+							newRange.addSubRanges(whr.getSubRanges());
+							newRange.addSubRange(whrNew);
+							tempRanges.add(newRange);
+						}
+					}
+				}
 
-        return vec;
-    }
+				movingRanges.clear();
+				movingRanges.addAll(tempRanges);
+			}
+		}
 
-    @Override
-    public int getAssignedWidth()
-    {
-        return 0;
-    }
+		vec.addAll(movingRanges);
 
-    @Override
-    public int getAssignedHeight()
-    {
-        return 0;
-    }
+		return vec;
+	}
 
-    public void layout(int WIDTH, int HEIGHT)
-    {
-        // This is the main method that does the computation of layout
+	@Override
+	public int getAssignedWidth()
+	{
+		return 0;
+	}
 
-    }
+	@Override
+	public int getAssignedHeight()
+	{
+		return 0;
+	}
 
-    public void addComponent(Layoutable comp)
-    {
-        this.components.add(comp);
-    }
+	public void layout(int WIDTH, int HEIGHT)
+	{
+		// This is the main method that does the computation of layout
+
+	}
+
+	public void addComponent(Layoutable comp)
+	{
+		this.components.add(comp);
+	}
 }

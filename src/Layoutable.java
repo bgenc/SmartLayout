@@ -8,6 +8,8 @@ public interface Layoutable
 	void setAssignedHeight(int h);
 	void setAssignedX(int x);
 	void setAssignedY(int y);
+	void layout(int x, int y, int w, int h, WHRange r);
 
 	Vector<WHRange> getRanges();
+
 }

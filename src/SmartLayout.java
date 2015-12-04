@@ -61,9 +61,15 @@ public class SmartLayout
 		contM.addComponent(compD);
 
 		Vector<WHRange> finalLayoutCases = contM.getRanges();
-		contM.layout(800, 300, finalLayoutCases.get(0));
-		System.out.println(finalLayoutCases.get(0));
-		System.out.println(finalLayoutCases.get(0).getSubRanges());
+		contM.layout(0, 0, 800, 300, finalLayoutCases.get(0));
+
+		System.out.println(compA);
+		System.out.println(compB);
+		System.out.println(compC);
+		System.out.println(compD);
+		System.out.println(compE);
+		System.out.println(compF);
+		System.out.println(compG);
 	}
 
 

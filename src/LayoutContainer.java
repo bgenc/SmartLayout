@@ -192,10 +192,64 @@ public class LayoutContainer implements Layoutable
 		this.aY = y;
 	}
 
-	public void layout(int WIDTH, int HEIGHT, WHRange whr)
+	public void layout(int x, int y, int w, int h, WHRange whr)
 	{
 		// This is the main method that does the computation of layout
+		this.setAssignedX(x);
+		this.setAssignedY(y);
+		this.setAssignedWidth(w);
+		this.setAssignedHeight(h);
 
+		// First, the HORIZONTAL orientation strategy
+
+		if (whr.getOrientationStrategy() == WHRange.HORIZONTAL)
+		{
+			Vector<WHRange> subRanges = whr.getSubRanges();
+			int[] minWvalues = new int[subRanges.size()];
+			int[] maxWvalues = new int[subRanges.size()];
+			for (int i = 0; i < subRanges.size(); i++)
+			{
+				minWvalues[i] = subRanges.get(i).getMinWidth();
+				maxWvalues[i] = subRanges.get(i).getMaxWidth();
+			}
+
+			// TODO Process min and max values to compute optimal values
+
+			int cumW = 0;
+
+			for (int i = 0; i < subRanges.size(); i++) {
+				this.components.get(i).layout(cumW, y, minWvalues[i], h, subRanges.get(i));
+				cumW += minWvalues[i];
+			}
+		}
+
+		// Second, the HORIZONTAL orientation strategy
+
+		else if (whr.getOrientationStrategy() == WHRange.VERTICAL)
+		{
+			Vector<WHRange> subRanges = whr.getSubRanges();
+			int[] minHvalues = new int[subRanges.size()];
+			int[] maxHvalues = new int[subRanges.size()];
+			for (int i = 0; i < subRanges.size(); i++)
+			{
+				minHvalues[i] = subRanges.get(i).getMinHeight();
+				maxHvalues[i] = subRanges.get(i).getMaxHeight();
+			}
+
+			// TODO Process min and max values to compute optimal values
+
+			int cumH = 0;
+
+			for (int i = 0; i < subRanges.size(); i++) {
+				this.components.get(i).layout(x, cumH, w, minHvalues[i], subRanges.get(i));
+				cumH += minHvalues[i];
+			}
+		}
+
+		else
+		{
+			System.out.println("Shouldn't be here");
+		}
 	}
 
 	public void addComponent(Layoutable comp)

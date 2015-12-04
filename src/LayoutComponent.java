@@ -104,4 +104,13 @@ public class LayoutComponent implements Layoutable
 		vec.add(this.whRange);
 		return vec;
 	}
+
+	public void layout(int x, int y, int w, int h, WHRange whr)
+	{
+		// This is the main method that does the computation of layout
+		this.setAssignedX(x);
+		this.setAssignedY(y);
+		this.setAssignedWidth(w);
+		this.setAssignedHeight(h);
+	}
 }

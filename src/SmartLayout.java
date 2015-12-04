@@ -2,8 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 public class SmartLayout extends JFrame implements ComponentListener
@@ -12,7 +11,8 @@ public class SmartLayout extends JFrame implements ComponentListener
 	Layoutable root;
 	Canvas canv;
 	JPanel p;
-	Graphics2D g;
+	BufferedImage buffer;
+	Graphics bufferGraphics;
 	Vector<WHRange> finalLayoutCases;
 
 	public SmartLayout()
@@ -25,8 +25,13 @@ public class SmartLayout extends JFrame implements ComponentListener
 		this.addComponentListener(this);
 
 		canv = new Canvas();
+		canv.setSize(100, 100);
 		p = new JPanel(new FlowLayout());
 		p.add(canv);
+
+		buffer = new BufferedImage(canv.getWidth(), canv.getHeight(), BufferedImage.TYPE_INT_RGB);
+		bufferGraphics = buffer.createGraphics();
+
 		this.setContentPane(p);
 		this.setVisible(true);
 	}
@@ -113,15 +118,22 @@ public class SmartLayout extends JFrame implements ComponentListener
 			int blu = 100 + (int)(Math.random() * 100);
 //			System.out.println(c + " " + red + " " + gre + " " + blu);
 
-			g.setColor(new Color(red, gre, blu));
-			g.fillRect(x, y, w, h);
+			bufferGraphics.setColor(new Color(red, gre, blu));
+			bufferGraphics.fillRect(x, y, w, h);
 
-			g.setColor(Color.black);
-			g.drawString(c.getLabel(), x + w / 2, y + h / 2);
-			g.drawString( x + " , " + y, x + 5, y + 15);
-			g.drawString("" + w, x + w / 2, y + h - 10);
-			g.drawString("" + h, x + w - 30, y + h / 2);
+			bufferGraphics.setColor(Color.black);
+			bufferGraphics.drawString(c.getLabel(), x + w / 2, y + h / 2);
+			bufferGraphics.drawString( x + " , " + y, x + 5, y + 15);
+			bufferGraphics.drawString("" + w, x + w / 2, y + h - 10);
+			bufferGraphics.drawString("" + h, x + w - 30, y + h / 2);
 		}
+		this.repaint();
+	}
+
+	@Override
+	public void paint(Graphics g)
+	{
+		canv.getGraphics().drawImage(buffer, 0, 0, null);
 	}
 
 	public static void main(String args[])
@@ -141,8 +153,10 @@ public class SmartLayout extends JFrame implements ComponentListener
 //		this.root.layout(0, 0, this.getWidth() - 50, this.getHeight() - 50, finalLayoutCases
 //				.get(0));
 		canv.setSize(new Dimension(this.root.getAssignedWidth(), this.root.getAssignedHeight()));
-		g = (Graphics2D) canv.getGraphics();
-		this.drawLayout();
+		buffer = new BufferedImage(canv.getWidth(), canv.getHeight(), BufferedImage.TYPE_INT_RGB);
+		bufferGraphics = buffer.createGraphics();
+		drawLayout();
+
 	}
 
 	@Override
@@ -154,8 +168,6 @@ public class SmartLayout extends JFrame implements ComponentListener
 	@Override
 	public void componentShown(ComponentEvent componentEvent)
 	{
-		if (root != null)
-			this.drawLayout();
 	}
 
 	@Override

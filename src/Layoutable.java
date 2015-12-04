@@ -2,6 +2,8 @@ import java.util.Vector;
 
 public interface Layoutable
 {
+	int getAssignedX();
+	int getAssignedY();
 	int getAssignedWidth();
 	int getAssignedHeight();
 	void setAssignedWidth(int w);

@@ -7,15 +7,22 @@ public class LayoutComponent implements Layoutable
 {
 	private int aX, aY, aWidth, aHeight;
 	private WHRange whRange;
+	private String label;
 
 
-	public LayoutComponent(WHRange whRange)
+	public LayoutComponent(String name, WHRange whRange)
 	{
+		this.label = name;
 		this.aX = 0;
 		this.aY = 0;
 		this.whRange = whRange;
 		this.aWidth = whRange.getMinWidth();
 		this.aHeight = whRange.getMinHeight();
+	}
+
+	public String getLabel()
+	{
+		return this.label;
 	}
 
 	public void setX(int val)
@@ -59,7 +66,22 @@ public class LayoutComponent implements Layoutable
 
 	public String toString()
 	{
-		return "[(" + this.aX + "," + this.aY + ")." + "(" + this.aWidth + "," + this.aHeight + ") < " + this.whRange + "]";
+		return "['" + this.label +
+				"'(" + this.aX + "," + this.aY + ")." +
+				"(" + this.aWidth	+ "," + this.aHeight +
+				") < " + this.whRange + " >]";
+	}
+
+	@Override
+	public int getAssignedX()
+	{
+		return this.aX;
+	}
+
+	@Override
+	public int getAssignedY()
+	{
+		return this.aY;
 	}
 
 	@Override

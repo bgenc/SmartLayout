@@ -157,6 +157,18 @@ public class LayoutContainer implements Layoutable
 	}
 
 	@Override
+	public int getAssignedX()
+	{
+		return this.aX;
+	}
+
+	@Override
+	public int getAssignedY()
+	{
+		return this.aY;
+	}
+
+	@Override
 	public int getAssignedWidth()
 	{
 		return this.aWidth;

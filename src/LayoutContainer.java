@@ -1,10 +1,12 @@
 import java.util.Vector;
 
 /**
+ * LayoutContainer class.
  * Created by bgenc on 10/19/15.
  */
 public class LayoutContainer implements Layoutable
 {
+	private int aX, aY, aWidth, aHeight;
 	private Vector<Layoutable> components;
 
 	public LayoutContainer()
@@ -157,37 +159,37 @@ public class LayoutContainer implements Layoutable
 	@Override
 	public int getAssignedWidth()
 	{
-		return 0;
+		return this.aWidth;
 	}
 
 	@Override
 	public int getAssignedHeight()
 	{
-		return 0;
+		return this.aHeight;
 	}
 
 	@Override
 	public void setAssignedWidth(int w)
 	{
-
+		this.aWidth = w;
 	}
 
 	@Override
 	public void setAssignedHeight(int h)
 	{
-
+		this.aHeight = h;
 	}
 
 	@Override
 	public void setAssignedX(int x)
 	{
-
+		this.aX = x;
 	}
 
 	@Override
 	public void setAssignedY(int y)
 	{
-
+		this.aY = y;
 	}
 
 	public void layout(int WIDTH, int HEIGHT, WHRange whr)

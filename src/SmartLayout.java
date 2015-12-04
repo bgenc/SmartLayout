@@ -62,7 +62,8 @@ public class SmartLayout
 
 		Vector<WHRange> finalLayoutCases = contM.getRanges();
 		contM.layout(800, 300, finalLayoutCases.get(0));
-		System.out.println(finalLayoutCases);
+		System.out.println(finalLayoutCases.get(0));
+		System.out.println(finalLayoutCases.get(0).getSubRanges());
 	}
 
 

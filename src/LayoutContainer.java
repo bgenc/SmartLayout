@@ -7,36 +7,79 @@ import java.util.Vector;
 public class LayoutContainer implements Layoutable
 {
 	private int aX, aY, aWidth, aHeight;
-	private Vector<Layoutable> components;
+	private Vector<Layoutable> children;
 
 	public LayoutContainer()
 	{
-		this.components = new Vector<Layoutable>();
+		this.children = new Vector<Layoutable>();
 	}
 
 	/**
 	 * This method returns all possible layout combinations for this subtree
-	 * of components and containers. While computing all layouts, this method
-	 * does the following:
-	 * - For each orientation strategy:
-	 * --- Get all layouts of all children
-	 * --- Create all layout combinations under this strategy
-	 * --- Store each combination as a possible layout
-	 * - Return all possible layouts
+	 * of children. While computing all layouts, this method
+	 * does the following:<br>
+	 * <ul>
+	 *    <li>
+	 *      For each orientation strategy:
+	 *      <ul>
+	 *         <li>Get all layouts of all children</li>
+	 *          <li>Create all layout combinations under this strategy</li>
+	 *          <li>Store each combination as a possible layout</li>
+	 *      </ul>
+	 *    </li>
+	 *    <li>Return all possible layouts</li>
+	 * </ul>
 	 *
-	 * @return All possible layout combinations for this subtree.
+	 * Here is how this works on an example:
+	 * Let's assume that we have 3 children, A, B and C, under this container. Let's
+	 * assume again that A has 2 children, each a component, B is a component itself and
+	 * C has two children which are also components. Therefore, A and C can be layed out
+	 * in two different ways, namely horizontal or vertical, while B has a single natural
+	 * layout. Overall this produces the following combinations of layouts for this
+	 * container:<br>
+	 * H(H(A)-B-H(C)) or H(H(A)-B-V(C)) or H(V(A)-B-H(C)) or H(V(A)-B-V(C)) or
+	 * V(H(A)-B-H(C)) or V(H(A)-B-V(C)) or V(V(A)-B-H(C)) or V(V(A)-B-V(C))<br>
+	 *
+	 * So, based on the orientation strategy of this container along with the orientation
+	 * strategies of its children, we get a total of 8 different layouts.
+	 * The way we compute all these layouts is as follows:
+	 * <ul>
+	 *   <li>We first do the following for a horizontal layout strategy of this container:
+	 *    <ul>
+	 *       <li>We first insert all possible layouts of A into a vector, namely
+	 *       movingRanges</li>
+	 *       <li>We than get the single possible layout of B and update movingRanges
+	 *       accordingly. In other words, we get each layout in movingRanges and attach
+	 *       B to it in a horizontal fashion, and record the new sizes</li>
+	 *       <li>Finally, we do the same for C. However, now we have two layouts in
+	 *       movingRanges and two layouts for C. So, we multiply them to obtain 4
+	 *       layouts and store them all in movingRanges</li>
+	 *    </ul>
+	 *   </li>
+	 *    <li>Once the horizontal strategy is computed, we do the above steps for the
+	 *    vertical strategy, which produces four more layouts.</li>
+	 *    <li>The total of eight layouts are returned as the result.</li>
+	 * </ul>
+	 *
+	 * @return All possible layout combinations for this container.
 	 */
 	public Vector<WHRange> getRanges()
 	{
+		// vec is what we will return at the end.
 		Vector<WHRange> vec = new Vector<WHRange>();
 
-		// First, the HORIZONTAL orientation strategy
+		// movingRanges and tempRanges are used temporarily for creating all possible
+		// layouts.
 
 		Vector<WHRange> movingRanges = new Vector<WHRange>();
 		Vector<WHRange> tempRanges = new Vector<WHRange>();
 
-		for (Layoutable l : components)
+		// First, the HORIZONTAL orientation strategy
+
+		// We will iterate over all children and one by one integrate them to the solution
+		for (Layoutable l : children)
 		{
+			// Get all possible ranges (layouts) for the layoutable child, l
 			Vector<WHRange> compVec = l.getRanges();
 			tempRanges.clear();
 
@@ -55,7 +98,9 @@ public class LayoutContainer implements Layoutable
 			}
 			else
 			{
-				// For all other components, we compute the product with existing
+				// If this is not the first child, then we already have some ranges computed
+				// in movingRanges.
+				// For all other children, we compute the product with existing
 				// movingRanges data and obtain the new movingRanges.
 
 				for (WHRange whr : movingRanges)
@@ -70,7 +115,7 @@ public class LayoutContainer implements Layoutable
 
 						// Make sure that newMaxHeight is greater than newMinHeight.
 						// Otherwise we have an infeasible layout. This only should happen
-						// if the height ranges of the two components are not intersecting.
+						// if the height ranges of the two children are not intersecting.
 
 						if (newMaxHeight >= newMinHeight)
 						{
@@ -96,7 +141,7 @@ public class LayoutContainer implements Layoutable
 
 		movingRanges.clear();
 
-		for (Layoutable l : components)
+		for (Layoutable l : children)
 		{
 			Vector<WHRange> compVec = l.getRanges();
 			tempRanges.clear();
@@ -116,7 +161,7 @@ public class LayoutContainer implements Layoutable
 			}
 			else
 			{
-				// For all other components, we compute the product with existing
+				// For all other children, we compute the product with existing
 				// movingRanges data and obtain the new movingRanges.
 
 				for (WHRange whr : movingRanges)
@@ -131,7 +176,7 @@ public class LayoutContainer implements Layoutable
 
 						// Make sure that newMaxWidth is greater than newMinWidth.
 						// Otherwise we have an infeasible layout. This only should happen
-						// if the width ranges of the two components are not intersecting.
+						// if the width ranges of the two children are not intersecting.
 
 						if (newMaxWidth >= newMinWidth)
 						{
@@ -230,7 +275,7 @@ public class LayoutContainer implements Layoutable
 			int cumW = 0;
 
 			for (int i = 0; i < subRanges.size(); i++) {
-				this.components.get(i).layout(cumW, y, minWvalues[i], h, subRanges.get(i));
+				this.children.get(i).layout(cumW, y, minWvalues[i], h, subRanges.get(i));
 				cumW += minWvalues[i];
 			}
 		}
@@ -253,7 +298,7 @@ public class LayoutContainer implements Layoutable
 			int cumH = 0;
 
 			for (int i = 0; i < subRanges.size(); i++) {
-				this.components.get(i).layout(x, cumH, w, minHvalues[i], subRanges.get(i));
+				this.children.get(i).layout(x, cumH, w, minHvalues[i], subRanges.get(i));
 				cumH += minHvalues[i];
 			}
 		}
@@ -266,6 +311,6 @@ public class LayoutContainer implements Layoutable
 
 	public void addComponent(Layoutable comp)
 	{
-		this.components.add(comp);
+		this.children.add(comp);
 	}
 }

@@ -120,6 +120,10 @@ public class LayoutComponent implements Layoutable
 		this.aY = y;
 	}
 
+	/**
+	 * For a component, this method returns the associated WHRange object.
+	 * @return The associated WHRange object.
+	 */
 	public Vector<WHRange> getRanges()
 	{
 		Vector<WHRange> vec = new Vector<WHRange>();

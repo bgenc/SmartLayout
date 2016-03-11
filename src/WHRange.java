@@ -5,8 +5,12 @@ import java.util.Vector;
  */
 public class WHRange
 {
+	// Minimum and maximum width and height values to be stored in this object.
 	private int minW, maxW, minH, maxH;
+
+	// The orientation strategy tells how the children of this container will be layed out.
 	private int orientationStrategy;
+
 	private Vector<WHRange> subRanges;
 	public static final int SINGLE = 0;
 	public static final int HORIZONTAL = 1;

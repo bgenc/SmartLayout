@@ -36,6 +36,12 @@ public class SmartLayout extends JFrame implements ComponentListener
 		this.setVisible(true);
 	}
 
+	/**
+	 * Creates a new component under this layout.
+	 * @param label The label of the new component.
+	 * @param range The width and height range of the new component.
+	 * @return The component to be created.
+	 */
 	public LayoutComponent createComponent(String label, WHRange range)
 	{
 		LayoutComponent c = new LayoutComponent(label, range);
@@ -43,6 +49,9 @@ public class SmartLayout extends JFrame implements ComponentListener
 		return c;
 	}
 
+	/**
+	 * Creates a demo layout model and runs the layout algorithm on the model.
+	 */
 	public void run()
 	{
 		System.out.println("Starting test...");
@@ -102,6 +111,9 @@ public class SmartLayout extends JFrame implements ComponentListener
 		this.root.layout(0, 0, 800, 300, finalLayoutCases.get(0));
 	}
 
+	/**
+	 * Draw the layout on the screen.
+	 */
 	public void drawLayout()
 	{
 		if (this.root == null)
@@ -144,6 +156,9 @@ public class SmartLayout extends JFrame implements ComponentListener
 	}
 
 	@Override
+	/**
+	 *
+	 */
 	public void componentResized(ComponentEvent componentEvent)
 	{
 		if (root == null)
